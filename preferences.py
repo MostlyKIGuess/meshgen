@@ -79,6 +79,7 @@ class MeshGenPreferences(bpy.types.AddonPreferences):
                 ("ollama", "Ollama", "Use Ollama for remote inference"),
                 ("anthropic", "Anthropic", "Use Anthropic API for remote inference"),
                 ("openai", "OpenAI", "Use OpenAI API for remote inference"),
+                ("gemini", "Google Gemini", "Use Google Gemini API for remote inference"),
             ],
             default="huggingface",
             update=reset_backend,
@@ -137,6 +138,25 @@ class MeshGenPreferences(bpy.types.AddonPreferences):
         "openai_api_key": bpy.props.StringProperty(
             name="API key",
             description="OpenAI API key",
+            default="",
+            subtype="PASSWORD",
+            update=reset_backend,
+        ),
+        "gemini_model_id": bpy.props.EnumProperty(
+            name="Model ID",
+            description="Gemini model to use",
+            items=[
+                ("gemini-1.5-flash", "Gemini 1.5 Flash", "Fastest model, suitable for most tasks"),
+                ("gemini-1.5-pro", "Gemini 1.5 Pro", "Balanced performance and capabilities"),
+                ("gemini-2.0-flash", "Gemini 2.0 Flash", "Fast, improved model"),
+                ("gemini-2.0-pro", "Gemini 2.0 Pro", "Advanced model with stronger reasoning"),
+            ],
+            default="gemini-1.5-pro",
+            update=reset_backend,
+        ),
+        "gemini_api_key": bpy.props.StringProperty(
+            name="API key",
+            description="Google AI Studio API key",
             default="",
             subtype="PASSWORD",
             update=reset_backend,
@@ -240,6 +260,10 @@ class MeshGenPreferences(bpy.types.AddonPreferences):
             elif self.llm_provider == "openai":
                 remote_box.prop(self, "openai_model_id")
                 remote_box.prop(self, "openai_api_key")
+            
+            elif self.llm_provider == "gemini":
+                remote_box.prop(self, "gemini_model_id")
+                remote_box.prop(self, "gemini_api_key")
 
         options_box = layout.box()
         header = options_box.row(align=True)

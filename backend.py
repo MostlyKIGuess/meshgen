@@ -49,6 +49,11 @@ class Backend:
                     and prefs.openai_model_id
                     and prefs.openai_api_key
                 )
+                or (
+                    prefs.llm_provider == "gemini"
+                    and prefs.gemini_model_id
+                    and prefs.gemini_api_key
+                )
             )
 
     def is_loaded(self):
@@ -93,6 +98,10 @@ class Backend:
             model_id = prefs.openai_model_id
             api_base = None
             api_key = prefs.openai_api_key
+        elif prefs.llm_provider == "gemini":
+            model_id = f"google/{prefs.gemini_model_id}"
+            api_base = None
+            api_key = prefs.gemini_api_key
         else:
             raise ValueError(f"Unknown provider: {prefs.llm_provider}")
 

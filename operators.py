@@ -59,6 +59,7 @@ class MESHGEN_OT_Chat(bpy.types.Operator):
                 "huggingface": prefs.huggingface_model_id,
                 "anthropic": prefs.anthropic_model_id,
                 "openai": prefs.openai_model_id,
+                "gemini": prefs.gemini_model_id,
             }
 
             model_name = (
